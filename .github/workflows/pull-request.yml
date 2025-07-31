@@ -29,9 +29,9 @@ jobs:
             const hasAreaLabel = prLabels.some(label => requiredLabels.includes(label));
 
             if (!hasAreaLabel) {
-            core.setFailed(`❌ PR must include at least one area label: ${requiredLabels.join(', ')}`);
+            core.setFailed(`❌ PR must include at least one label: ${requiredLabels.join(', ')}`);
             } else {
-            core.info(`✅ PR contains a required area label.`);
+            core.info(`✅ PR contains a required label.`);
             }
   build:
     runs-on: ubuntu-latest
