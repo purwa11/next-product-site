@@ -10,6 +10,29 @@ env:
   PNPM_VERSION: 8
 
 jobs:
+  check-label:
+    name: Check PR Label
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Required Labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const requiredLabels = [
+            'devops',
+            'infrastructure',
+            'frontend',
+            'backend'
+            ];
+
+            const prLabels = context.payload.pull_request.labels.map(label => label.name);
+            const hasAreaLabel = prLabels.some(label => requiredLabels.includes(label));
+
+            if (!hasAreaLabel) {
+            core.setFailed(`❌ PR must include at least one area label: ${requiredLabels.join(', ')}`);
+            } else {
+            core.info(`✅ PR contains a required area label.`);
+            }
   build:
     runs-on: ubuntu-latest
     steps:
